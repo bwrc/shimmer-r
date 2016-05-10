@@ -39,7 +39,7 @@ read.shimmer <- function(filename) {
     recording <- new_recording()
 
     ## Add the channel data to the recording
-    tvec <- data[[shimmer_header[[1]]]]-data[[shimmer_header[[1]]]][1] / 1000
+    tvec <- (data[[shimmer_header[[1]]]] - data[[shimmer_header[[1]]]][1]) / 1000
     fs  <- 1000 / (data[[shimmer_header[[1]]]][2] - data[[shimmer_header[[1]]]][1])
     recording$signal <- lapply(shimmer_header[-1], function(i) list("data" = data[[i]], t = tvec, samplingrate = fs, unit = shimmer_units[[i]]))
     names(recording$signal) <- shimmer_header[-1]
