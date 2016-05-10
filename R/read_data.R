@@ -46,9 +46,10 @@ read.shimmer <- function(filename) {
 
     ## Add header
     recording$properties$time.start.raw <- data[[shimmer_header[[1]]]][1]
-    recording$properties$time.start     <- as.POSIXct(data[[shimmer_header[[1]]]][1] / 1000, origin="1970-01-01")
+    recording$properties$time.start     <- as.POSIXct(data[[shimmer_header[[1]]]][1] / 1000, origin="1970-01-01", tz = "UTC")
     recording$properties$time.stop.raw  <- rev(tvec)[1]
-    recording$properties$time.stop      <- as.POSIXct(rev(data[[shimmer_header[[1]]]])[1] / 1000, origin="1970-01-01")
+    recording$properties$time.stop      <- as.POSIXct(rev(data[[shimmer_header[[1]]]])[1] / 1000, origin="1970-01-01", tz = "UTC")
+    recording$properties$zerotime       <- recording$properties$time.start
     recording$properties$subject        <- NA
     recording$properties$format         <- "shimmer"
     recording$properties$format.long    <- "shimmer"
@@ -56,6 +57,6 @@ read.shimmer <- function(filename) {
     recording$properties$device.serial  <- shimmer_unit_id
     recording$properties$device.version <- NA
     recording$properties$length         <- rev(tvec)[1] / 1000
-
+    
     recording
 }
