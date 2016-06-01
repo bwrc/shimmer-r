@@ -3,10 +3,10 @@
 ##' This function reads data from a Shimmer device (in the CSV format).
 ##'
 ##' @param filename The filename with the Shimmer data.
-##'  
+##'
 ##' @return The data as a recording structure (list).
-##'  
-##' @export 
+##'
+##' @export
 read.shimmer <- function(filename) {
     con <- file(filename)
     open(con)
@@ -16,15 +16,15 @@ read.shimmer <- function(filename) {
 
     ## Get the header line
     shimmer_header  <- strsplit(readLines(con, n = 1), split = shimmer_sep)[[1]]
-    shimmer_unit_name <- strsplit(shimmer_header[1], "_")[[1]][1]
-    shimmer_unit_id <- strsplit(shimmer_header[1], "_")[[1]][2]
+    shimmer_header <- gsub("Shimmer_", "", shimmer_header)
+    shimmer_unit_id <- strsplit(shimmer_header[1], "_")[[1]][1]
 
-    shimmer_header <- gsub(shimmer_unit_name, "", shimmer_header)
     shimmer_header <- gsub(shimmer_unit_id, "", shimmer_header)
-    shimmer_header <- gsub("^__", "", shimmer_header)
+    shimmer_header <- gsub("^_", "", shimmer_header)
 
     shimmer_header <- gsub("_CAL", "", shimmer_header)
     shimmer_header <- gsub("_LN", "", shimmer_header)
+    shimmer_header <- gsub("_A13", "", shimmer_header)
 
     shimmer_units        <- strsplit(readLines(con, n = 1), split = shimmer_sep)[[1]]
     names(shimmer_units) <- shimmer_header
@@ -53,10 +53,10 @@ read.shimmer <- function(filename) {
     recording$properties$subject        <- NA
     recording$properties$format         <- "shimmer"
     recording$properties$format.long    <- "shimmer"
-    recording$properties$device.type    <- shimmer_unit_name
+    recording$properties$device.type    <- "shimmer"
     recording$properties$device.serial  <- shimmer_unit_id
     recording$properties$device.version <- NA
-    recording$properties$length         <- rev(tvec)[1] / 1000
-    
+    recording$properties$length         <- rev(tvec)[1]
+
     recording
 }
