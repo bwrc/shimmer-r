@@ -25,6 +25,7 @@ read.shimmer <- function(filename) {
     shimmer_header <- gsub("_CAL", "", shimmer_header)
     shimmer_header <- gsub("_LN", "", shimmer_header)
     shimmer_header <- gsub("_A13", "", shimmer_header)
+    shimmer_header <- gsub("_BMP180", "", shimmer_header)
 
     shimmer_units        <- strsplit(readLines(con, n = 1), split = shimmer_sep)[[1]]
     names(shimmer_units) <- shimmer_header
